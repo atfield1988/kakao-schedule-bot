@@ -30,7 +30,7 @@ def create_connection_pool():
     try:
         pool = pooling.MySQLConnectionPool(
             pool_name="schedule_pool",
-            pool_size=10,  # 10명 동시 접속 대응
+            pool_size=3,  # 3명 동시 접속 대응
             pool_reset_session=True,
             host=os.environ.get('DB_HOST', 'localhost'),
             port=int(os.environ.get('DB_PORT', 3306)),
