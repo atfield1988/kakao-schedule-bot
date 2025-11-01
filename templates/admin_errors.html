@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>에러 대시보드 - 관리자</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>🔧 에러 대시보드</h1>
+            <p class="subtitle">최근 50개 에러 로그</p>
+        </header>
+
+        <main>
+            {% if logs %}
+            <div class="log-container">
+                <table class="log-table">
+                    <thead>
+                        <tr>
+                            <th>로그</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr>
+                            <td class="log-entry">
+                                <code>{{ log }}</code>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>✅ 에러 로그가 없습니다</p>
+            </div>
+            {% endif %}
+        </main>
+
+        <footer class="page-footer">
+            <p>관리자 전용 페이지</p>
+        </footer>
+    </div>
+</body>
+</html>

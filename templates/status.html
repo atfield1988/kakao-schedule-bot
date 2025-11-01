@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스케줄 현황 - O.O 챗봇</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>📅 스케줄 현황</h1>
+            <p class="subtitle">실시간 스케줄 및 신청 현황</p>
+        </header>
+
+        <main>
+            {% if schedules %}
+            <div class="table-container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>날짜/시간</th>
+                            <th>근무시간</th>
+                            <th>정원</th>
+                            <th>현재 인원</th>
+                            <th>상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schedule in schedules %}
+                        <tr class="schedule-row {{ schedule.status_class }}">
+                            <td class="datetime">{{ schedule.datetime_korean }}</td>
+                            <td>{{ schedule.duration_hours }}시간</td>
+                            <td>{{ schedule.capacity }}명</td>
+                            <td>{{ schedule.current_count }}명</td>
+                            <td class="status">
+                                {% if schedule.status_class == 'full' %}
+                                <span class="badge badge-full">🔴 마감</span>
+                                {% else %}
+                                <span class="badge badge-available">🟢 모집중</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="legend">
+                <h3>범례</h3>
+                <ul>
+                    <li><span class="badge badge-full">🔴 마감</span> - 정원이 모두 찼습니다</li>
+                    <li><span class="badge badge-available">🟢 모집중</span> - 신청 가능합니다</li>
+                </ul>
+            </div>
+
+            {% else %}
+            <div class="empty-state">
+                <p>📭 등록된 스케줄이 없습니다.</p>
+            </div>
+            {% endif %}
+        </main>
+
+        <footer class="page-footer">
+            <p>카카오톡 채널에서 신청하세요</p>
+            <p class="text-muted">마지막 업데이트: {{ schedules[0].created_at if schedules else 'N/A' }}</p>
+        </footer>
+    </div>
+</body>
+</html>
